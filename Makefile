@@ -26,7 +26,7 @@ CURSIVE='\033[3m'
 .c.o :
 	@gcc ${FLAGS} -I so_long.h -c $< -o ${<:.c=.o}
 
-$(NAME) : ${OBJS}
+all: ${OBJS}
 	@make -C ./libft/
 	@make -C ./ft_printf/
 	@make -C ./mlx/
@@ -37,19 +37,24 @@ $(NAME) : ${OBJS}
 	@gcc ${FLAGS} ${FLAGS_MLX} -o ${NAME} libft.a libftprintf.a libmlx.a ${OBJS}
 	@echo $(GREEN)"     - Compiled -"$(NONE)
 	@rm -f $(OBJS)
+	@rm ./libft.a
+	@rm ./libmlx.a
+	@rm ./libftprintf.a
+	@make fclean -C ./libft/
+	@make fclean -C ./ft_printf
 	@echo $(CURSIVE)$(GRAY) "     - Deleted object files" $(NONE)
-
-all: $(NAME)
 
 clean:
 	@echo $(CURSIVE)$(GRAY) "     - Removing object files..." $(NONE)
 	@rm -f ${OBJS}
+	@echo $(GREEN)"     - Removed -"$(NONE)
 
 fclean: clean
 	@echo $(CURSIVE)$(GRAY) "     - Removing $(NAME)..." $(NONE)
 	@rm -f $(NAME) libft.a libftprintf.a libmlx.a
 	@make fclean -C ./libft/
 	@make fclean -C ./ft_printf/
+	@echo $(GREEN)"     - Removed -"$(NONE)
 
 re: fclean all
 
